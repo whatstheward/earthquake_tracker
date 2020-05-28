@@ -2,7 +2,28 @@
   text-align: center;
 }
 
-#map { 
+/* #map { 
   height: 50vh;
   width: 75vw; 
+} */
+
+
+#timelineContainer{
+  height: 25vh;
+  background-color: rgb(0, 157, 141, 0.25); 
+}
+
+#hourTimeline{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.hour{
+  width: 40px;
+  border-left: 1px solid;
+  border-right: 1px solid;
+  margin: 1em;
 }

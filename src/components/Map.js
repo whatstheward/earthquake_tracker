@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import L from 'leaflet'
 
 const style = {
@@ -6,25 +6,27 @@ const style = {
     height: "50vh"
 }
 
-export const Map = ({markerPosition}) => {
+export const Map = ({markerPosition, bounds}) => {
 
 
-    const mapRef = React.useRef(null);
-    React.useEffect(()=>{
+    const mapRef = useRef(null);
+    useEffect(()=>{
+        console.log(bounds)
         mapRef.current = L.map('map', {
+            bounds: [],
             center: [38.948293,-77.367410],
             zoom: 14,
             layers: [
                 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 attribution:
                     '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                }),
+                })
             ]
         })
     }, [])
 
-    const markerRef = React.useRef(null);
-    React.useEffect(
+    const markerRef = useRef(null);
+    useEffect(
         ()=>{
             if(markerRef.current){
                 markerRef.current.setLatLng(markerPosition)
