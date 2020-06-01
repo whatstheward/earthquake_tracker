@@ -1,21 +1,22 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import L from 'leaflet'
 
 const style = {
-    width: "75vw",
+    width: "100vw",
     height: "50vh"
 }
 
-export const Map = ({markerPosition, bounds}) => {
-
-
+export const Map = ({quakes}) => {
+    const [position, setPosition] = useState({ latitude: 39.694571, longitude: -77.358465 })
+    const [error, setError] = useState(null)
+  
     const mapRef = useRef(null);
+
     useEffect(()=>{
-        console.log(bounds)
         mapRef.current = L.map('map', {
             bounds: [],
-            center: [38.948293,-77.367410],
-            zoom: 14,
+            center: [position.latitude, position.longitude],
+            zoom: 6,
             layers: [
                 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 attribution:
@@ -25,17 +26,26 @@ export const Map = ({markerPosition, bounds}) => {
         })
     }, [])
 
-    const markerRef = useRef(null);
-    useEffect(
-        ()=>{
-            if(markerRef.current){
-                markerRef.current.setLatLng(markerPosition)
-            }else{
-                markerRef.current = L.marker(markerPosition).addTo(mapRef.current)
-            }
-        },
-        [markerPosition]
-    )
+    const layerRef = useRef(null)
+        useEffect(()=> {
+            layerRef.current = L.layerGroup().addTo(mapRef.current)
+        }, [])
+
+    useEffect(()=>{
+        layerRef.current.clearLayers();
+        quakes.forEach(quake=>{
+            const latLng = [quake.geometry.coordinates[1], quake.geometry.coordinates[0]]
+            const popupContent = `  <ul>
+                                        <li>Place: ${quake.properties.place} </li>
+                                        <li>Time: ${new Date(quake.properties.time).toLocaleString()}</li>
+                                        <li>Magnitude: ${quake.properties.mag}</li>
+                                        <li><a href=${quake.properties.url} target="blank">Learn More</a></li>
+                                    </ul>`
+            L.marker(latLng, {title: quake.properties.place}).bindPopup(popupContent).openPopup().addTo(layerRef.current)
+
+        })
+    }, [quakes])
+
 
 
     return(

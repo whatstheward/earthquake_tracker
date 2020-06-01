@@ -4,12 +4,7 @@ import { Map } from './components/Map'
 import { TimelineContainer } from './containers/TimelineContainer';
 
 function App() {
-  const [page, setPage] = useState(1)
-  const [markerPosition, setMarkerPosition] = useState({
-    lat: 38.948293,
-    lng: -77.367410
-  })
-  const { lat, lng } = markerPosition
+
   const [quakeData, setQuakeData] = useState([])
 
   useEffect(()=>{
@@ -21,14 +16,11 @@ function App() {
     fetchData()
   }, [])
   
-  const quakeSlicer = () => {
 
-    return quakeData.slice(page, page+100)
-  }
   return (
     <div className="App">
       <TimelineContainer quakes={quakeData}></TimelineContainer>
-      <Map markerPosition={markerPosition} ></Map>
+      <Map quakes={quakeData} ></Map>
     </div>
   );
 }
