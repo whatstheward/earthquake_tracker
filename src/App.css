@@ -1,3 +1,6 @@
+
+
+
 .App {
   text-align: center;
 }
@@ -9,7 +12,7 @@
 
 
 #timelineContainer{
-  height: 25vh;
+  height: 20em;
   background-color: rgb(0, 157, 141, 0.25); 
 }
 
@@ -21,9 +24,9 @@
 
 
 
-.hour{
+/* .hour{
   width: 40px;
   border-left: 1px solid;
   border-right: 1px solid;
   margin: 1em;
-}
+} */

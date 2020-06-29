@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+
 import L from 'leaflet'
 
 const style = {
@@ -16,7 +17,8 @@ export const Map = ({quakes}) => {
         mapRef.current = L.map('map', {
             bounds: [],
             center: [position.latitude, position.longitude],
-            zoom: 6,
+            zoom: 7,
+            minZoom: 3,
             layers: [
                 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 attribution:
@@ -41,7 +43,9 @@ export const Map = ({quakes}) => {
                                         <li>Magnitude: ${quake.properties.mag}</li>
                                         <li><a href=${quake.properties.url} target="blank">Learn More</a></li>
                                     </ul>`
-            L.marker(latLng, {title: quake.properties.place}).bindPopup(popupContent).openPopup().addTo(layerRef.current)
+            const icon =    L.icon({iconUrl: require('../images/icons/marker_red.png'),
+                                    iconSize:[30, 30]})
+            L.marker(latLng, {icon: icon }).bindPopup(popupContent).openPopup().addTo(layerRef.current)
 
         })
     }, [quakes])
